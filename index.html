@@ -1,12 +1,16 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>365 Daily Notes</title>
+    <title>Dear Lucie...</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -17,6 +21,10 @@
             background: #f5f5f5;
             color: #222;
         }
+
+        /* -------------------------
+           Header
+        ------------------------- */
 
         header {
             text-align: center;
@@ -33,25 +41,61 @@
             color: #666;
         }
 
+        /* -------------------------
+           Calendar Container
+        ------------------------- */
+
         .calendar-container {
             max-width: 1000px;
             margin: 0 auto 50px;
             padding: 0 20px;
         }
 
+        /* -------------------------
+           Month
+        ------------------------- */
+
         .month {
             background: white;
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
         }
 
-        .month h2 {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 20px;
+        /* -------------------------
+           Month Navigation
+        ------------------------- */
+
+        .navigation {
+            display: grid;
+            grid-template-columns: 50px 1fr 50px;
+            align-items: center;
+            margin-bottom: 25px;
         }
+
+        .navigation h2 {
+            margin: 0;
+            text-align: center;
+        }
+
+        .nav-button {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background: #eee;
+        }
+
+        /* -------------------------
+           Weekdays
+        ------------------------- */
 
         .weekdays,
         .days {
@@ -67,6 +111,10 @@
             padding: 8px;
         }
 
+        /* -------------------------
+           Calendar Days
+        ------------------------- */
+
         .day {
             min-height: 80px;
             border: 1px solid #ddd;
@@ -77,16 +125,26 @@
             justify-content: flex-start;
             background: #fafafa;
             font-size: 16px;
+            cursor: pointer;
+        }
+
+        .day:hover {
+            background: #eee;
         }
 
         .day.empty {
             border: none;
             background: transparent;
+            cursor: default;
         }
 
-        .day:hover:not(.empty) {
-            background: #eee;
+        .day.empty:hover {
+            background: transparent;
         }
+
+        /* -------------------------
+           Mobile
+        ------------------------- */
 
         @media (max-width: 600px) {
 
@@ -102,112 +160,345 @@
                 min-height: 55px;
                 padding: 6px;
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
 
+    <!-- =========================
+         Header
+    ========================== -->
+
     <header>
-        <h1>365 Daily Notes</h1>
-        <p>A new note every day.</p>
+
+        <h1>Dear Lucie...</h1>
+
+        <p></p>
+
     </header>
 
-    <div class="calendar-container" id="calendar"></div>
 
-<script>
+    <!-- =========================
+         Calendar
+    ========================== -->
 
-    const calendar = document.getElementById("calendar");
+    <div
+        class="calendar-container"
+        id="calendar">
+    </div>
 
-    const year = new Date().getFullYear();
 
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ];
+    <!-- =========================
+         JavaScript
+    ========================== -->
 
-    const weekdayNames = [
-        "Sun",
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat"
-    ];
+    <script>
 
-    for (let month = 0; month < 12; month++) {
+        const calendar = document.getElementById("calendar");
 
-        const monthContainer = document.createElement("div");
-        monthContainer.className = "month";
 
-        const title = document.createElement("h2");
-        title.textContent = `${monthNames[month]} ${year}`;
+        /* -------------------------
+           Month Names
+        ------------------------- */
 
-        monthContainer.appendChild(title);
+        const monthNames = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
 
-        const weekdays = document.createElement("div");
-        weekdays.className = "weekdays";
 
-        weekdayNames.forEach(day => {
+        /* -------------------------
+           Weekday Names
+        ------------------------- */
 
-            const weekday = document.createElement("div");
+        const weekdayNames = [
+            "Sun",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat"
+        ];
 
-            weekday.className = "weekday";
-            weekday.textContent = day;
 
-            weekdays.appendChild(weekday);
+        /* -------------------------
+           Today's Date
+        ------------------------- */
 
-        });
+        const today = new Date();
 
-        monthContainer.appendChild(weekdays);
 
-        const daysContainer = document.createElement("div");
-        daysContainer.className = "days";
+        /*
+            Start the calendar on
+            the current month.
+        */
 
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let currentMonth = today.getMonth();
+        let currentYear = today.getFullYear();
 
-        // Empty boxes before the first day
-        for (let i = 0; i < firstDay; i++) {
 
-            const emptyDay = document.createElement("div");
+        /* -------------------------
+           Create Calendar
+        ------------------------- */
 
-            emptyDay.className = "day empty";
+        function createCalendar(year, month) {
 
-            daysContainer.appendChild(emptyDay);
+            /*
+                Clear the existing calendar
+                before creating the new month.
+            */
+
+            calendar.innerHTML = "";
+
+
+            /* -------------------------
+               Month Container
+            ------------------------- */
+
+            const monthContainer = document.createElement("div");
+
+            monthContainer.className = "month";
+
+
+            /* -------------------------
+               Navigation
+            ------------------------- */
+
+            const navigation = document.createElement("div");
+
+            navigation.className = "navigation";
+
+
+            /* Previous Button */
+
+            const previousButton = document.createElement("button");
+
+            previousButton.textContent = "←";
+
+            previousButton.className = "nav-button";
+
+
+            /* Month Title */
+
+            const title = document.createElement("h2");
+
+            title.textContent =
+                `${monthNames[month]} ${year}`;
+
+
+            /* Next Button */
+
+            const nextButton = document.createElement("button");
+
+            nextButton.textContent = "→";
+
+            nextButton.className = "nav-button";
+
+
+            /* Add navigation elements */
+
+            navigation.appendChild(previousButton);
+
+            navigation.appendChild(title);
+
+            navigation.appendChild(nextButton);
+
+
+            monthContainer.appendChild(navigation);
+
+
+            /* -------------------------
+               Weekday Headers
+            ------------------------- */
+
+            const weekdays = document.createElement("div");
+
+            weekdays.className = "weekdays";
+
+
+            weekdayNames.forEach(day => {
+
+                const weekday =
+                    document.createElement("div");
+
+                weekday.className = "weekday";
+
+                weekday.textContent = day;
+
+                weekdays.appendChild(weekday);
+
+            });
+
+
+            monthContainer.appendChild(weekdays);
+
+
+            /* -------------------------
+               Days Container
+            ------------------------- */
+
+            const daysContainer =
+                document.createElement("div");
+
+            daysContainer.className = "days";
+
+
+            /* -------------------------
+               First Day of Month
+            ------------------------- */
+
+            const firstDay =
+                new Date(year, month, 1).getDay();
+
+
+            /* -------------------------
+               Number of Days
+            ------------------------- */
+
+            const daysInMonth =
+                new Date(year, month + 1, 0).getDate();
+
+
+            /* -------------------------
+               Empty Spaces
+            ------------------------- */
+
+            for (let i = 0; i < firstDay; i++) {
+
+                const emptyDay =
+                    document.createElement("div");
+
+                emptyDay.className = "day empty";
+
+                daysContainer.appendChild(emptyDay);
+
+            }
+
+
+            /* -------------------------
+               Create Calendar Days
+            ------------------------- */
+
+            for (
+                let day = 1;
+                day <= daysInMonth;
+                day++
+            ) {
+
+                const dayBox =
+                    document.createElement("div");
+
+
+                dayBox.className = "day";
+
+
+                dayBox.textContent = day;
+
+
+                daysContainer.appendChild(dayBox);
+
+            }
+
+
+            /* Add days to month */
+
+            monthContainer.appendChild(daysContainer);
+
+
+            /* Add month to calendar */
+
+            calendar.appendChild(monthContainer);
+
+
+            /* -------------------------
+               Previous Month Button
+            ------------------------- */
+
+            previousButton.addEventListener(
+                "click",
+                () => {
+
+                    if (currentMonth === 0) {
+
+                        currentMonth = 11;
+
+                        currentYear--;
+
+                    } else {
+
+                        currentMonth--;
+
+                    }
+
+
+                    createCalendar(
+                        currentYear,
+                        currentMonth
+                    );
+
+                }
+            );
+
+
+            /* -------------------------
+               Next Month Button
+            ------------------------- */
+
+            nextButton.addEventListener(
+                "click",
+                () => {
+
+                    if (currentMonth === 11) {
+
+                        currentMonth = 0;
+
+                        currentYear++;
+
+                    } else {
+
+                        currentMonth++;
+
+                    }
+
+
+                    createCalendar(
+                        currentYear,
+                        currentMonth
+                    );
+
+                }
+            );
 
         }
 
-        // Create each day
-        for (let day = 1; day <= daysInMonth; day++) {
 
-            const dayBox = document.createElement("div");
+        /* -------------------------
+           Start Calendar
+        ------------------------- */
 
-            dayBox.className = "day";
-            dayBox.textContent = day;
+        createCalendar(
+            currentYear,
+            currentMonth
+        );
 
-            daysContainer.appendChild(dayBox);
-
-        }
-
-        monthContainer.appendChild(daysContainer);
-
-        calendar.appendChild(monthContainer);
-
-    }
-
-</script>
+    </script>
 
 </body>
+
 </html>
+```
