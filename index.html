@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -158,12 +159,52 @@
             justify-content: flex-start;
             background: #fafafa;
             font-size: 16px;
+        }
+
+        /* -------------------------
+           Past Dates
+        ------------------------- */
+
+        .day.available {
             cursor: pointer;
         }
 
-        .day:hover {
+        .day.available:hover {
             background: #eee;
         }
+
+        /* -------------------------
+           Future Dates
+        ------------------------- */
+
+        .day.locked {
+            color: #aaa;
+            background: #f3f3f3;
+            cursor: not-allowed;
+        }
+
+        .day.locked:hover {
+            background: #f3f3f3;
+        }
+
+        /* -------------------------
+           Today's Date
+        ------------------------- */
+
+        .day.today {
+            border: 2px solid #222;
+            background: #e8e8e8;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .day.today:hover {
+            background: #ddd;
+        }
+
+        /* -------------------------
+           Empty Calendar Spaces
+        ------------------------- */
 
         .day.empty {
             border: none;
@@ -176,17 +217,26 @@
         }
 
         /* -------------------------
-           Today's Highlight
+           Status Labels
         ------------------------- */
 
-        .day.today {
-            border: 2px solid #222;
-            background: #e8e8e8;
-            font-weight: bold;
+        .day-number {
+            display: block;
         }
 
-        .day.today:hover {
-            background: #ddd;
+        .status {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .locked .status {
+            color: #999;
+        }
+
+        .today .status {
+            color: #555;
         }
 
         /* -------------------------
@@ -206,6 +256,10 @@
             .day {
                 min-height: 55px;
                 padding: 6px;
+            }
+
+            .status {
+                font-size: 10px;
             }
 
         }
@@ -245,7 +299,8 @@
 
     <script>
 
-        const calendar = document.getElementById("calendar");
+        const calendar =
+            document.getElementById("calendar");
 
 
         /* -------------------------
@@ -342,25 +397,68 @@
 
 
         /* -------------------------
+           Compare Two Dates
+        ------------------------- */
+
+        function compareDates(
+            year1,
+            month1,
+            day1,
+            year2,
+            month2,
+            day2
+        ) {
+
+            const date1 =
+                new Date(
+                    year1,
+                    month1,
+                    day1
+                );
+
+            const date2 =
+                new Date(
+                    year2,
+                    month2,
+                    day2
+                );
+
+            if (date1 < date2) {
+                return -1;
+            }
+
+            if (date1 > date2) {
+                return 1;
+            }
+
+            return 0;
+
+        }
+
+
+        /* -------------------------
            Today's Date
         ------------------------- */
 
-        const today = getEasternDate();
+        const today =
+            getEasternDate();
 
 
         /* -------------------------
            Current Calendar Month
         ------------------------- */
 
-        let currentMonth = Math.max(
-            today.month,
-            startingMonth
-        );
+        let currentMonth =
+            Math.max(
+                today.month,
+                startingMonth
+            );
 
-        let currentYear = Math.max(
-            today.year,
-            startingYear
-        );
+        let currentYear =
+            Math.max(
+                today.year,
+                startingYear
+            );
 
 
         /* -------------------------
@@ -373,7 +471,8 @@
             currentMonth < startingMonth
         ) {
 
-            currentMonth = startingMonth;
+            currentMonth =
+                startingMonth;
 
         }
 
@@ -382,11 +481,13 @@
            Create Calendar
         ------------------------- */
 
-        function createCalendar(year, month) {
+        function createCalendar(
+            year,
+            month
+        ) {
 
             /*
-                Clear the existing calendar
-                before creating the new month.
+                Clear existing calendar.
             */
 
             calendar.innerHTML = "";
@@ -399,7 +500,8 @@
             const monthContainer =
                 document.createElement("div");
 
-            monthContainer.className = "month";
+            monthContainer.className =
+                "month";
 
 
             /* -------------------------
@@ -409,7 +511,8 @@
             const navigation =
                 document.createElement("div");
 
-            navigation.className = "navigation";
+            navigation.className =
+                "navigation";
 
 
             /* Previous Button */
@@ -417,7 +520,8 @@
             const previousButton =
                 document.createElement("button");
 
-            previousButton.textContent = "←";
+            previousButton.textContent =
+                "←";
 
             previousButton.className =
                 "nav-button";
@@ -431,7 +535,8 @@
                 month === startingMonth
             ) {
 
-                previousButton.disabled = true;
+                previousButton.disabled =
+                    true;
 
             }
 
@@ -450,19 +555,22 @@
             const nextButton =
                 document.createElement("button");
 
-            nextButton.textContent = "→";
+            nextButton.textContent =
+                "→";
 
             nextButton.className =
                 "nav-button";
 
 
-            /* Add navigation elements */
+            /* Add navigation */
 
             navigation.appendChild(
                 previousButton
             );
 
-            navigation.appendChild(title);
+            navigation.appendChild(
+                title
+            );
 
             navigation.appendChild(
                 nextButton
@@ -512,7 +620,8 @@
             const weekdays =
                 document.createElement("div");
 
-            weekdays.className = "weekdays";
+            weekdays.className =
+                "weekdays";
 
 
             weekdayNames.forEach(day => {
@@ -523,7 +632,8 @@
                 weekday.className =
                     "weekday";
 
-                weekday.textContent = day;
+                weekday.textContent =
+                    day;
 
                 weekdays.appendChild(
                     weekday
@@ -544,7 +654,8 @@
             const daysContainer =
                 document.createElement("div");
 
-            daysContainer.className = "days";
+            daysContainer.className =
+                "days";
 
 
             /* -------------------------
@@ -608,23 +719,149 @@
                     document.createElement("div");
 
 
-                dayBox.className = "day";
+                /* -------------------------
+                   Compare Date
+                ------------------------- */
 
-
-                dayBox.textContent = day;
+                const comparison =
+                    compareDates(
+                        year,
+                        month,
+                        day,
+                        today.year,
+                        today.month,
+                        today.day
+                    );
 
 
                 /* -------------------------
-                   Check If This Is Today
+                   Day Number
                 ------------------------- */
 
-                if (
-                    year === today.year &&
-                    month === today.month &&
-                    day === today.day
-                ) {
+                const dayNumber =
+                    document.createElement("span");
 
-                    dayBox.classList.add("today");
+                dayNumber.className =
+                    "day-number";
+
+                dayNumber.textContent =
+                    day;
+
+
+                dayBox.appendChild(
+                    dayNumber
+                );
+
+
+                /* -------------------------
+                   FUTURE DATE
+                ------------------------- */
+
+                if (comparison > 0) {
+
+                    dayBox.className =
+                        "day locked";
+
+
+                    const status =
+                        document.createElement("span");
+
+                    status.className =
+                        "status";
+
+                    status.textContent =
+                        "🔒 Locked";
+
+
+                    dayBox.appendChild(
+                        status
+                    );
+
+                }
+
+
+                /* -------------------------
+                   TODAY
+                ------------------------- */
+
+                else if (comparison === 0) {
+
+                    dayBox.className =
+                        "day today";
+
+
+                    const status =
+                        document.createElement("span");
+
+                    status.className =
+                        "status";
+
+                    status.textContent =
+                        "💌 Today";
+
+
+                    dayBox.appendChild(
+                        status
+                    );
+
+
+                    /*
+                        Today's date can be clicked.
+                    */
+
+                    dayBox.addEventListener(
+                        "click",
+                        () => {
+
+                            alert(
+                                "This is today's note. The note system will be added next!"
+                            );
+
+                        }
+                    );
+
+                }
+
+
+                /* -------------------------
+                   PAST DATE
+                ------------------------- */
+
+                else {
+
+                    dayBox.className =
+                        "day available";
+
+
+                    const status =
+                        document.createElement("span");
+
+                    status.className =
+                        "status";
+
+                    status.textContent =
+                        "💌 Available";
+
+
+                    dayBox.appendChild(
+                        status
+                    );
+
+
+                    /*
+                        Past dates can be clicked.
+                    */
+
+                    dayBox.addEventListener(
+                        "click",
+                        () => {
+
+                            alert(
+                                "This note is available. The note system will be added next!"
+                            );
+
+                        }
+                    );
 
                 }
 
@@ -636,14 +873,14 @@
             }
 
 
-            /* Add days to month */
+            /* Add days */
 
             monthContainer.appendChild(
                 daysContainer
             );
 
 
-            /* Add month to calendar */
+            /* Add month */
 
             calendar.appendChild(
                 monthContainer
@@ -651,7 +888,7 @@
 
 
             /* -------------------------
-               Previous Month Button
+               Previous Month
             ------------------------- */
 
             previousButton.addEventListener(
@@ -668,9 +905,12 @@
                     }
 
 
-                    if (currentMonth === 0) {
+                    if (
+                        currentMonth === 0
+                    ) {
 
-                        currentMonth = 11;
+                        currentMonth =
+                            11;
 
                         currentYear--;
 
@@ -691,16 +931,19 @@
 
 
             /* -------------------------
-               Next Month Button
+               Next Month
             ------------------------- */
 
             nextButton.addEventListener(
                 "click",
                 () => {
 
-                    if (currentMonth === 11) {
+                    if (
+                        currentMonth === 11
+                    ) {
 
-                        currentMonth = 0;
+                        currentMonth =
+                            0;
 
                         currentYear++;
 
@@ -728,12 +971,6 @@
                 "click",
                 () => {
 
-                    /*
-                        Get the current Eastern
-                        date again in case the
-                        day has changed.
-                    */
-
                     const currentDate =
                         getEasternDate();
 
@@ -746,8 +983,8 @@
 
 
                     /*
-                        Don't allow the calendar
-                        to go before September 2026.
+                        Never go before
+                        September 2026.
                     */
 
                     if (
@@ -792,3 +1029,4 @@
 </body>
 
 </html>
+```
