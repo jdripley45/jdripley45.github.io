@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,53 +9,70 @@
 
     <title>Dear Lucie...</title>
 
+    <!-- Handwritten Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
 
         * {
             box-sizing: border-box;
         }
 
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f5f5f5;
             color: #222;
+            overflow-x: hidden;
         }
 
-        /* -------------------------
+
+        /* =========================
            Header
-        ------------------------- */
+        ========================== */
 
         header {
             text-align: center;
             padding: 40px 20px 25px;
         }
 
+
         header h1 {
             margin: 0;
             font-size: 36px;
         }
+
 
         header p {
             margin-top: 10px;
             color: #666;
         }
 
-        /* -------------------------
+
+        /* =========================
            Calendar Container
-        ------------------------- */
+        ========================== */
 
         .calendar-container {
+            width: 100%;
             max-width: 1000px;
             margin: 0 auto 50px;
             padding: 0 20px;
         }
 
-        /* -------------------------
+
+        /* =========================
            Month
-        ------------------------- */
+        ========================== */
 
         .month {
+            width: 100%;
             background: white;
             border-radius: 12px;
             padding: 25px;
@@ -62,21 +80,25 @@
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
         }
 
-        /* -------------------------
+
+        /* =========================
            Month Navigation
-        ------------------------- */
+        ========================== */
 
         .navigation {
             display: grid;
-            grid-template-columns: 50px 1fr 50px;
+            grid-template-columns: 50px minmax(0, 1fr) 50px;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
+
 
         .navigation h2 {
             margin: 0;
             text-align: center;
+            font-size: 24px;
         }
+
 
         .nav-button {
             width: 45px;
@@ -88,11 +110,11 @@
             cursor: pointer;
         }
 
+
         .nav-button:hover {
             background: #eee;
         }
 
-        /* Disabled Previous Button */
 
         .nav-button:disabled {
             color: #bbb;
@@ -100,18 +122,21 @@
             cursor: not-allowed;
         }
 
+
         .nav-button:disabled:hover {
             background: #f5f5f5;
         }
 
-        /* -------------------------
+
+        /* =========================
            Today Button
-        ------------------------- */
+        ========================== */
 
         .today-button-container {
             text-align: center;
             margin-bottom: 20px;
         }
+
 
         .today-button {
             padding: 8px 16px;
@@ -122,59 +147,78 @@
             cursor: pointer;
         }
 
+
         .today-button:hover {
             background: #eee;
         }
 
-        /* -------------------------
+
+        /* =========================
            Weekdays
-        ------------------------- */
+        ========================== */
 
         .weekdays,
         .days {
+            width: 100%;
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(7, minmax(0, 1fr));
             gap: 8px;
         }
 
+
         .weekday {
+            min-width: 0;
             text-align: center;
             font-weight: bold;
             color: #777;
-            padding: 8px;
+            padding: 8px 2px;
         }
 
-        /* -------------------------
+
+        /* =========================
            Calendar Days
-        ------------------------- */
+        ========================== */
 
         .day {
+            width: 100%;
+            min-width: 0;
             min-height: 80px;
+
             border: 1px solid #ddd;
             border-radius: 8px;
+
             padding: 10px;
+
             display: flex;
+            flex-direction: column;
             align-items: flex-start;
             justify-content: flex-start;
+
             background: #fafafa;
+
             font-size: 16px;
+
+            overflow: hidden;
         }
 
-        /* -------------------------
-           Past Dates
-        ------------------------- */
+
+        /* =========================
+           Available Past Dates
+        ========================== */
 
         .day.available {
             cursor: pointer;
         }
 
+
         .day.available:hover {
             background: #eee;
         }
 
-        /* -------------------------
+
+        /* =========================
            Future Dates
-        ------------------------- */
+        ========================== */
 
         .day.locked {
             color: #aaa;
@@ -182,13 +226,15 @@
             cursor: not-allowed;
         }
 
+
         .day.locked:hover {
             background: #f3f3f3;
         }
 
-        /* -------------------------
+
+        /* =========================
            Today's Date
-        ------------------------- */
+        ========================== */
 
         .day.today {
             border: 2px solid #222;
@@ -197,13 +243,15 @@
             cursor: pointer;
         }
 
+
         .day.today:hover {
             background: #ddd;
         }
 
-        /* -------------------------
+
+        /* =========================
            Empty Calendar Spaces
-        ------------------------- */
+        ========================== */
 
         .day.empty {
             border: none;
@@ -211,54 +259,424 @@
             cursor: default;
         }
 
+
         .day.empty:hover {
             background: transparent;
         }
 
-        /* -------------------------
-           Status Labels
-        ------------------------- */
+
+        /* =========================
+           Day Number
+        ========================== */
 
         .day-number {
             display: block;
+            line-height: 1;
         }
+
+
+        /* =========================
+           Status Text
+        ========================== */
 
         .status {
             display: block;
             margin-top: 8px;
             font-size: 12px;
             font-weight: normal;
+            line-height: 1.2;
         }
+
 
         .locked .status {
             color: #999;
         }
 
+
         .today .status {
             color: #555;
         }
 
-        /* -------------------------
-           Mobile
-        ------------------------- */
+
+        /* =========================
+           NOTE OVERLAY
+        ========================== */
+
+        .note-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 0.2s ease,
+                visibility 0.2s ease;
+        }
+
+
+        .note-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        /* =========================
+           LINED PAPER
+        ========================== */
+
+        .note-paper {
+            position: relative;
+
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+
+            overflow-y: auto;
+
+            padding:
+                55px
+                55px
+                60px
+                75px;
+
+            border-radius: 3px;
+
+            background-color: #fffdf5;
+
+            /*
+                Horizontal notebook lines
+            */
+
+            background-image:
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 31px,
+                    #b9d0df 32px,
+                    #b9d0df 33px
+                );
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.25);
+
+            transform: translateY(20px) rotate(-0.3deg);
+
+            transition:
+                transform 0.25s ease;
+        }
+
+
+        .note-overlay.visible .note-paper {
+            transform:
+                translateY(0)
+                rotate(-0.3deg);
+        }
+
+
+        /* =========================
+           Paper Red Margin
+        ========================== */
+
+        .note-paper::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            bottom: 0;
+
+            left: 52px;
+
+            width: 1px;
+
+            background: #e3a4a4;
+        }
+
+
+        /* =========================
+           Close Button
+        ========================== */
+
+        .close-note {
+            position: absolute;
+
+            top: 15px;
+            right: 18px;
+
+            width: 35px;
+            height: 35px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: rgba(0, 0, 0, 0.06);
+
+            font-size: 22px;
+            line-height: 35px;
+
+            cursor: pointer;
+
+            z-index: 2;
+        }
+
+
+        .close-note:hover {
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* =========================
+           Note Date
+        ========================== */
+
+        .note-date {
+            position: relative;
+
+            margin: 0 0 15px 0;
+
+            font-family: "Caveat", cursive;
+
+            font-size: 28px;
+            font-weight: 500;
+
+            line-height: 33px;
+
+            color: #333;
+        }
+
+
+        /* =========================
+           Note Text
+        ========================== */
+
+        .note-text {
+            position: relative;
+
+            margin: 0;
+
+            font-family: "Caveat", cursive;
+
+            font-size: 26px;
+            font-weight: 400;
+
+            line-height: 33px;
+
+            color: #222;
+
+            white-space: pre-wrap;
+        }
+
+
+        /* =========================
+           MOBILE / PORTRAIT
+        ========================== */
 
         @media (max-width: 600px) {
+
+            header {
+                padding:
+                    25px
+                    10px
+                    20px;
+            }
+
 
             header h1 {
                 font-size: 28px;
             }
 
-            .month {
-                padding: 15px;
+
+            .calendar-container {
+                padding:
+                    0
+                    8px;
             }
+
+
+            .month {
+                padding:
+                    15px
+                    8px;
+
+                border-radius: 10px;
+            }
+
+
+            .navigation {
+                grid-template-columns:
+                    42px
+                    minmax(0, 1fr)
+                    42px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .navigation h2 {
+                font-size: 20px;
+            }
+
+
+            .nav-button {
+                width: 38px;
+                height: 38px;
+                font-size: 20px;
+            }
+
+
+            .weekdays,
+            .days {
+                gap: 4px;
+            }
+
+
+            .weekday {
+                padding:
+                    6px
+                    0;
+
+                font-size: 12px;
+            }
+
 
             .day {
-                min-height: 55px;
-                padding: 6px;
+                min-height: 58px;
+
+                padding:
+                    7px
+                    5px;
+
+                border-radius: 6px;
+
+                font-size: 14px;
             }
 
+
             .status {
-                font-size: 10px;
+                margin-top: 5px;
+                font-size: 9px;
+            }
+
+
+            .today-button-container {
+                margin-bottom: 15px;
+            }
+
+
+            .today-button {
+                padding:
+                    7px
+                    14px;
+
+                font-size: 13px;
+            }
+
+
+            /* Note on phone */
+
+            .note-overlay {
+                padding: 12px;
+            }
+
+
+            .note-paper {
+                max-height: 90vh;
+
+                padding:
+                    50px
+                    25px
+                    50px
+                    45px;
+
+                background-image:
+                    repeating-linear-gradient(
+                        to bottom,
+                        transparent 0px,
+                        transparent 27px,
+                        #b9d0df 28px,
+                        #b9d0df 29px
+                    );
+            }
+
+
+            .note-paper::before {
+                left: 30px;
+            }
+
+
+            .note-date {
+                font-size: 23px;
+                line-height: 29px;
+            }
+
+
+            .note-text {
+                font-size: 23px;
+                line-height: 29px;
+            }
+
+        }
+
+
+        /* =========================
+           VERY SMALL PHONES
+        ========================== */
+
+        @media (max-width: 380px) {
+
+            .calendar-container {
+                padding:
+                    0
+                    5px;
+            }
+
+
+            .month {
+                padding:
+                    12px
+                    5px;
+            }
+
+
+            .weekdays,
+            .days {
+                gap: 3px;
+            }
+
+
+            .day {
+                min-height: 52px;
+
+                padding:
+                    6px
+                    4px;
+
+                font-size: 13px;
+            }
+
+
+            .status {
+                font-size: 8px;
+            }
+
+
+            .weekday {
+                font-size: 11px;
             }
 
         }
@@ -267,10 +685,12 @@
 
 </head>
 
+
 <body>
 
+
     <!-- =========================
-         Header
+         HEADER
     ========================== -->
 
     <header>
@@ -283,7 +703,7 @@
 
 
     <!-- =========================
-         Calendar
+         CALENDAR
     ========================== -->
 
     <div
@@ -293,20 +713,77 @@
 
 
     <!-- =========================
-         JavaScript
+         NOTE POPUP
+    ========================== -->
+
+    <div
+        class="note-overlay"
+        id="noteOverlay"
+    >
+
+        <div
+            class="note-paper"
+            id="notePaper"
+        >
+
+            <button
+                class="close-note"
+                id="closeNote"
+                aria-label="Close note"
+            >
+                ×
+            </button>
+
+
+            <h2
+                class="note-date"
+                id="noteDate"
+            ></h2>
+
+
+            <p
+                class="note-text"
+                id="noteText"
+            ></p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
     ========================== -->
 
     <script>
+
 
         const calendar =
             document.getElementById("calendar");
 
 
-        /* -------------------------
-           Month Names
-        ------------------------- */
+        const noteOverlay =
+            document.getElementById("noteOverlay");
+
+
+        const closeNote =
+            document.getElementById("closeNote");
+
+
+        const noteDate =
+            document.getElementById("noteDate");
+
+
+        const noteText =
+            document.getElementById("noteText");
+
+
+        /* =========================
+           MONTH NAMES
+        ========================== */
 
         const monthNames = [
+
             "January",
             "February",
             "March",
@@ -319,14 +796,16 @@
             "October",
             "November",
             "December"
+
         ];
 
 
-        /* -------------------------
-           Weekday Names
-        ------------------------- */
+        /* =========================
+           WEEKDAY NAMES
+        ========================== */
 
         const weekdayNames = [
+
             "Sun",
             "Mon",
             "Tue",
@@ -334,21 +813,22 @@
             "Thu",
             "Fri",
             "Sat"
+
         ];
 
 
-        /* -------------------------
-           Starting Month
-        ------------------------- */
+        /* =========================
+           STARTING MONTH
+        ========================== */
 
-        const startingMonth = 8;      // September
+        const startingMonth = 8;
+
         const startingYear = 2026;
 
 
-        /* -------------------------
-           Get Today's Date
-           Using Eastern Time
-        ------------------------- */
+        /* =========================
+           GET EASTERN DATE
+        ========================== */
 
         function getEasternDate() {
 
@@ -356,12 +836,21 @@
                 new Intl.DateTimeFormat(
                     "en-US",
                     {
-                        timeZone: "America/New_York",
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric"
+                        timeZone:
+                            "America/New_York",
+
+                        year:
+                            "numeric",
+
+                        month:
+                            "numeric",
+
+                        day:
+                            "numeric"
                     }
-                ).formatToParts(new Date());
+                ).formatToParts(
+                    new Date()
+                );
 
 
             let year;
@@ -369,21 +858,46 @@
             let day;
 
 
-            easternDate.forEach(part => {
+            easternDate.forEach(
+                part => {
 
-                if (part.type === "year") {
-                    year = Number(part.value);
+                    if (
+                        part.type === "year"
+                    ) {
+
+                        year =
+                            Number(
+                                part.value
+                            );
+
+                    }
+
+
+                    if (
+                        part.type === "month"
+                    ) {
+
+                        month =
+                            Number(
+                                part.value
+                            ) - 1;
+
+                    }
+
+
+                    if (
+                        part.type === "day"
+                    ) {
+
+                        day =
+                            Number(
+                                part.value
+                            );
+
+                    }
+
                 }
-
-                if (part.type === "month") {
-                    month = Number(part.value) - 1;
-                }
-
-                if (part.type === "day") {
-                    day = Number(part.value);
-                }
-
-            });
+            );
 
 
             return {
@@ -395,9 +909,9 @@
         }
 
 
-        /* -------------------------
-           Compare Two Dates
-        ------------------------- */
+        /* =========================
+           COMPARE DATES
+        ========================== */
 
         function compareDates(
             year1,
@@ -415,6 +929,7 @@
                     day1
                 );
 
+
             const date2 =
                 new Date(
                     year2,
@@ -422,30 +937,41 @@
                     day2
                 );
 
-            if (date1 < date2) {
+
+            if (
+                date1 < date2
+            ) {
+
                 return -1;
+
             }
 
-            if (date1 > date2) {
+
+            if (
+                date1 > date2
+            ) {
+
                 return 1;
+
             }
+
 
             return 0;
 
         }
 
 
-        /* -------------------------
-           Today's Date
-        ------------------------- */
+        /* =========================
+           TODAY
+        ========================== */
 
         const today =
             getEasternDate();
 
 
-        /* -------------------------
-           Current Calendar Month
-        ------------------------- */
+        /* =========================
+           CURRENT CALENDAR MONTH
+        ========================== */
 
         let currentMonth =
             Math.max(
@@ -453,17 +979,13 @@
                 startingMonth
             );
 
+
         let currentYear =
             Math.max(
                 today.year,
                 startingYear
             );
 
-
-        /* -------------------------
-           Make Sure Calendar
-           Starts At September 2026
-        ------------------------- */
 
         if (
             currentYear === startingYear &&
@@ -476,18 +998,107 @@
         }
 
 
-        /* -------------------------
-           Create Calendar
-        ------------------------- */
+        /* =========================
+           OPEN NOTE
+        ========================== */
+
+        function openNote(
+            year,
+            month,
+            day
+        ) {
+
+            /*
+                Temporary placeholder.
+
+                We will replace this
+                with the actual note
+                for this date later.
+            */
+
+            noteDate.textContent =
+                `${monthNames[month]} ${day}, ${year}`;
+
+
+            noteText.textContent =
+                "This is where your note for this day will appear.\n\n" +
+                "Once we add your daily messages, the text will appear here on the lined paper in a handwritten style.";
+
+
+            noteOverlay.classList.add(
+                "visible"
+            );
+
+        }
+
+
+        /* =========================
+           CLOSE NOTE
+        ========================== */
+
+        function closeNoteWindow() {
+
+            noteOverlay.classList.remove(
+                "visible"
+            );
+
+        }
+
+
+        closeNote.addEventListener(
+            "click",
+            closeNoteWindow
+        );
+
+
+        /* =========================
+           CLICK OUTSIDE NOTE
+        ========================== */
+
+        noteOverlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === noteOverlay
+                ) {
+
+                    closeNoteWindow();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           ESCAPE KEY
+        ========================== */
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeNoteWindow();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           CREATE CALENDAR
+        ========================== */
 
         function createCalendar(
             year,
             month
         ) {
-
-            /*
-                Clear existing calendar.
-            */
 
             calendar.innerHTML = "";
 
@@ -497,7 +1108,10 @@
             ------------------------- */
 
             const monthContainer =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             monthContainer.className =
                 "month";
@@ -508,26 +1122,30 @@
             ------------------------- */
 
             const navigation =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             navigation.className =
                 "navigation";
 
 
-            /* Previous Button */
+            /* Previous */
 
             const previousButton =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
+
 
             previousButton.textContent =
                 "←";
 
+
             previousButton.className =
                 "nav-button";
 
-
-            /* Disable Previous Button
-               At September 2026 */
 
             if (
                 year === startingYear &&
@@ -540,36 +1158,43 @@
             }
 
 
-            /* Month Title */
+            /* Title */
 
             const title =
-                document.createElement("h2");
+                document.createElement(
+                    "h2"
+                );
+
 
             title.textContent =
                 `${monthNames[month]} ${year}`;
 
 
-            /* Next Button */
+            /* Next */
 
             const nextButton =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
+
 
             nextButton.textContent =
                 "→";
+
 
             nextButton.className =
                 "nav-button";
 
 
-            /* Add navigation */
-
             navigation.appendChild(
                 previousButton
             );
 
+
             navigation.appendChild(
                 title
             );
+
 
             navigation.appendChild(
                 nextButton
@@ -586,17 +1211,24 @@
             ------------------------- */
 
             const todayButtonContainer =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             todayButtonContainer.className =
                 "today-button-container";
 
 
             const todayButton =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
+
 
             todayButton.textContent =
                 "Today";
+
 
             todayButton.className =
                 "today-button";
@@ -613,32 +1245,42 @@
 
 
             /* -------------------------
-               Weekday Headers
+               Weekdays
             ------------------------- */
 
             const weekdays =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             weekdays.className =
                 "weekdays";
 
 
-            weekdayNames.forEach(day => {
+            weekdayNames.forEach(
+                day => {
 
-                const weekday =
-                    document.createElement("div");
+                    const weekday =
+                        document.createElement(
+                            "div"
+                        );
 
-                weekday.className =
-                    "weekday";
 
-                weekday.textContent =
-                    day;
+                    weekday.className =
+                        "weekday";
 
-                weekdays.appendChild(
-                    weekday
-                );
 
-            });
+                    weekday.textContent =
+                        day;
+
+
+                    weekdays.appendChild(
+                        weekday
+                    );
+
+                }
+            );
 
 
             monthContainer.appendChild(
@@ -647,19 +1289,20 @@
 
 
             /* -------------------------
-               Days Container
+               Days
             ------------------------- */
 
             const daysContainer =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             daysContainer.className =
                 "days";
 
 
-            /* -------------------------
-               First Day of Month
-            ------------------------- */
+            /* First Day */
 
             const firstDay =
                 new Date(
@@ -669,9 +1312,7 @@
                 ).getDay();
 
 
-            /* -------------------------
-               Number of Days
-            ------------------------- */
+            /* Number Of Days */
 
             const daysInMonth =
                 new Date(
@@ -681,9 +1322,7 @@
                 ).getDate();
 
 
-            /* -------------------------
-               Empty Spaces
-            ------------------------- */
+            /* Empty Spaces */
 
             for (
                 let i = 0;
@@ -692,10 +1331,14 @@
             ) {
 
                 const emptyDay =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 emptyDay.className =
                     "day empty";
+
 
                 daysContainer.appendChild(
                     emptyDay
@@ -705,7 +1348,7 @@
 
 
             /* -------------------------
-               Create Calendar Days
+               Create Individual Days
             ------------------------- */
 
             for (
@@ -715,12 +1358,10 @@
             ) {
 
                 const dayBox =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
-
-                /* -------------------------
-                   Compare Date
-                ------------------------- */
 
                 const comparison =
                     compareDates(
@@ -738,10 +1379,14 @@
                 ------------------------- */
 
                 const dayNumber =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 dayNumber.className =
                     "day-number";
+
 
                 dayNumber.textContent =
                     day;
@@ -752,21 +1397,27 @@
                 );
 
 
-                /* -------------------------
-                   FUTURE DATE
-                ------------------------- */
+                /* =========================
+                   FUTURE
+                ========================== */
 
-                if (comparison > 0) {
+                if (
+                    comparison > 0
+                ) {
 
                     dayBox.className =
                         "day locked";
 
 
                     const status =
-                        document.createElement("span");
+                        document.createElement(
+                            "span"
+                        );
+
 
                     status.className =
                         "status";
+
 
                     status.textContent =
                         "🔒 Locked";
@@ -779,21 +1430,27 @@
                 }
 
 
-                /* -------------------------
+                /* =========================
                    TODAY
-                ------------------------- */
+                ========================== */
 
-                else if (comparison === 0) {
+                else if (
+                    comparison === 0
+                ) {
 
                     dayBox.className =
                         "day today";
 
 
                     const status =
-                        document.createElement("span");
+                        document.createElement(
+                            "span"
+                        );
+
 
                     status.className =
                         "status";
+
 
                     status.textContent =
                         "💌 Today";
@@ -804,16 +1461,14 @@
                     );
 
 
-                    /*
-                        Today's date can be clicked.
-                    */
-
                     dayBox.addEventListener(
                         "click",
                         () => {
 
-                            alert(
-                                "This is today's note. The note system will be added next!"
+                            openNote(
+                                year,
+                                month,
+                                day
                             );
 
                         }
@@ -822,9 +1477,9 @@
                 }
 
 
-                /* -------------------------
-                   PAST DATE
-                ------------------------- */
+                /* =========================
+                   PAST
+                ========================== */
 
                 else {
 
@@ -833,10 +1488,14 @@
 
 
                     const status =
-                        document.createElement("span");
+                        document.createElement(
+                            "span"
+                        );
+
 
                     status.className =
                         "status";
+
 
                     status.textContent =
                         "💌 Available";
@@ -847,16 +1506,14 @@
                     );
 
 
-                    /*
-                        Past dates can be clicked.
-                    */
-
                     dayBox.addEventListener(
                         "click",
                         () => {
 
-                            alert(
-                                "This note is available. The note system will be added next!"
+                            openNote(
+                                year,
+                                month,
+                                day
                             );
 
                         }
@@ -872,23 +1529,19 @@
             }
 
 
-            /* Add days */
-
             monthContainer.appendChild(
                 daysContainer
             );
 
-
-            /* Add month */
 
             calendar.appendChild(
                 monthContainer
             );
 
 
-            /* -------------------------
-               Previous Month
-            ------------------------- */
+            /* =========================
+               PREVIOUS MONTH
+            ========================== */
 
             previousButton.addEventListener(
                 "click",
@@ -913,7 +1566,9 @@
 
                         currentYear--;
 
-                    } else {
+                    }
+
+                    else {
 
                         currentMonth--;
 
@@ -929,9 +1584,9 @@
             );
 
 
-            /* -------------------------
-               Next Month
-            ------------------------- */
+            /* =========================
+               NEXT MONTH
+            ========================== */
 
             nextButton.addEventListener(
                 "click",
@@ -946,7 +1601,9 @@
 
                         currentYear++;
 
-                    } else {
+                    }
+
+                    else {
 
                         currentMonth++;
 
@@ -962,9 +1619,9 @@
             );
 
 
-            /* -------------------------
-               Today Button
-            ------------------------- */
+            /* =========================
+               TODAY BUTTON
+            ========================== */
 
             todayButton.addEventListener(
                 "click",
@@ -977,14 +1634,10 @@
                     currentMonth =
                         currentDate.month;
 
+
                     currentYear =
                         currentDate.year;
 
-
-                    /*
-                        Never go before
-                        September 2026.
-                    */
 
                     if (
                         currentYear < startingYear ||
@@ -1014,9 +1667,9 @@
         }
 
 
-        /* -------------------------
-           Start Calendar
-        ------------------------- */
+        /* =========================
+           START CALENDAR
+        ========================== */
 
         createCalendar(
             currentYear,
@@ -1028,3 +1681,4 @@
 </body>
 
 </html>
+```
