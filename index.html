@@ -92,6 +92,40 @@
             background: #eee;
         }
 
+        /* Disabled Previous Button */
+
+        .nav-button:disabled {
+            color: #bbb;
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .nav-button:disabled:hover {
+            background: #f5f5f5;
+        }
+
+        /* -------------------------
+           Today Button
+        ------------------------- */
+
+        .today-button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .today-button {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .today-button:hover {
+            background: #eee;
+        }
+
         /* -------------------------
            Weekdays
         ------------------------- */
@@ -139,6 +173,20 @@
 
         .day.empty:hover {
             background: transparent;
+        }
+
+        /* -------------------------
+           Today's Highlight
+        ------------------------- */
+
+        .day.today {
+            border: 2px solid #222;
+            background: #e8e8e8;
+            font-weight: bold;
+        }
+
+        .day.today:hover {
+            background: #ddd;
         }
 
         /* -------------------------
@@ -236,19 +284,98 @@
 
 
         /* -------------------------
+           Starting Month
+        ------------------------- */
+
+        const startingMonth = 8;      // September
+        const startingYear = 2026;
+
+
+        /* -------------------------
+           Get Today's Date
+           Using Eastern Time
+        ------------------------- */
+
+        function getEasternDate() {
+
+            const easternDate =
+                new Intl.DateTimeFormat(
+                    "en-US",
+                    {
+                        timeZone: "America/New_York",
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric"
+                    }
+                ).formatToParts(new Date());
+
+
+            let year;
+            let month;
+            let day;
+
+
+            easternDate.forEach(part => {
+
+                if (part.type === "year") {
+                    year = Number(part.value);
+                }
+
+                if (part.type === "month") {
+                    month = Number(part.value) - 1;
+                }
+
+                if (part.type === "day") {
+                    day = Number(part.value);
+                }
+
+            });
+
+
+            return {
+                year: year,
+                month: month,
+                day: day
+            };
+
+        }
+
+
+        /* -------------------------
            Today's Date
         ------------------------- */
 
-        const today = new Date();
+        const today = getEasternDate();
 
 
-        /*
-            Start the calendar on
-            the current month.
-        */
+        /* -------------------------
+           Current Calendar Month
+        ------------------------- */
 
-        let currentMonth = today.getMonth();
-        let currentYear = today.getFullYear();
+        let currentMonth = Math.max(
+            today.month,
+            startingMonth
+        );
+
+        let currentYear = Math.max(
+            today.year,
+            startingYear
+        );
+
+
+        /* -------------------------
+           Make Sure Calendar
+           Starts At September 2026
+        ------------------------- */
+
+        if (
+            currentYear === startingYear &&
+            currentMonth < startingMonth
+        ) {
+
+            currentMonth = startingMonth;
+
+        }
 
 
         /* -------------------------
@@ -269,7 +396,8 @@
                Month Container
             ------------------------- */
 
-            const monthContainer = document.createElement("div");
+            const monthContainer =
+                document.createElement("div");
 
             monthContainer.className = "month";
 
@@ -278,23 +406,40 @@
                Navigation
             ------------------------- */
 
-            const navigation = document.createElement("div");
+            const navigation =
+                document.createElement("div");
 
             navigation.className = "navigation";
 
 
             /* Previous Button */
 
-            const previousButton = document.createElement("button");
+            const previousButton =
+                document.createElement("button");
 
             previousButton.textContent = "←";
 
-            previousButton.className = "nav-button";
+            previousButton.className =
+                "nav-button";
+
+
+            /* Disable Previous Button
+               At September 2026 */
+
+            if (
+                year === startingYear &&
+                month === startingMonth
+            ) {
+
+                previousButton.disabled = true;
+
+            }
 
 
             /* Month Title */
 
-            const title = document.createElement("h2");
+            const title =
+                document.createElement("h2");
 
             title.textContent =
                 `${monthNames[month]} ${year}`;
@@ -302,30 +447,70 @@
 
             /* Next Button */
 
-            const nextButton = document.createElement("button");
+            const nextButton =
+                document.createElement("button");
 
             nextButton.textContent = "→";
 
-            nextButton.className = "nav-button";
+            nextButton.className =
+                "nav-button";
 
 
             /* Add navigation elements */
 
-            navigation.appendChild(previousButton);
+            navigation.appendChild(
+                previousButton
+            );
 
             navigation.appendChild(title);
 
-            navigation.appendChild(nextButton);
+            navigation.appendChild(
+                nextButton
+            );
 
 
-            monthContainer.appendChild(navigation);
+            monthContainer.appendChild(
+                navigation
+            );
+
+
+            /* -------------------------
+               Today Button
+            ------------------------- */
+
+            const todayButtonContainer =
+                document.createElement("div");
+
+            todayButtonContainer.className =
+                "today-button-container";
+
+
+            const todayButton =
+                document.createElement("button");
+
+            todayButton.textContent =
+                "Today";
+
+            todayButton.className =
+                "today-button";
+
+
+            todayButtonContainer.appendChild(
+                todayButton
+            );
+
+
+            monthContainer.appendChild(
+                todayButtonContainer
+            );
 
 
             /* -------------------------
                Weekday Headers
             ------------------------- */
 
-            const weekdays = document.createElement("div");
+            const weekdays =
+                document.createElement("div");
 
             weekdays.className = "weekdays";
 
@@ -335,16 +520,21 @@
                 const weekday =
                     document.createElement("div");
 
-                weekday.className = "weekday";
+                weekday.className =
+                    "weekday";
 
                 weekday.textContent = day;
 
-                weekdays.appendChild(weekday);
+                weekdays.appendChild(
+                    weekday
+                );
 
             });
 
 
-            monthContainer.appendChild(weekdays);
+            monthContainer.appendChild(
+                weekdays
+            );
 
 
             /* -------------------------
@@ -362,7 +552,11 @@
             ------------------------- */
 
             const firstDay =
-                new Date(year, month, 1).getDay();
+                new Date(
+                    year,
+                    month,
+                    1
+                ).getDay();
 
 
             /* -------------------------
@@ -370,21 +564,32 @@
             ------------------------- */
 
             const daysInMonth =
-                new Date(year, month + 1, 0).getDate();
+                new Date(
+                    year,
+                    month + 1,
+                    0
+                ).getDate();
 
 
             /* -------------------------
                Empty Spaces
             ------------------------- */
 
-            for (let i = 0; i < firstDay; i++) {
+            for (
+                let i = 0;
+                i < firstDay;
+                i++
+            ) {
 
                 const emptyDay =
                     document.createElement("div");
 
-                emptyDay.className = "day empty";
+                emptyDay.className =
+                    "day empty";
 
-                daysContainer.appendChild(emptyDay);
+                daysContainer.appendChild(
+                    emptyDay
+                );
 
             }
 
@@ -409,19 +614,40 @@
                 dayBox.textContent = day;
 
 
-                daysContainer.appendChild(dayBox);
+                /* -------------------------
+                   Check If This Is Today
+                ------------------------- */
+
+                if (
+                    year === today.year &&
+                    month === today.month &&
+                    day === today.day
+                ) {
+
+                    dayBox.classList.add("today");
+
+                }
+
+
+                daysContainer.appendChild(
+                    dayBox
+                );
 
             }
 
 
             /* Add days to month */
 
-            monthContainer.appendChild(daysContainer);
+            monthContainer.appendChild(
+                daysContainer
+            );
 
 
             /* Add month to calendar */
 
-            calendar.appendChild(monthContainer);
+            calendar.appendChild(
+                monthContainer
+            );
 
 
             /* -------------------------
@@ -431,6 +657,16 @@
             previousButton.addEventListener(
                 "click",
                 () => {
+
+                    if (
+                        year === startingYear &&
+                        month === startingMonth
+                    ) {
+
+                        return;
+
+                    }
+
 
                     if (currentMonth === 0) {
 
@@ -483,6 +719,62 @@
                 }
             );
 
+
+            /* -------------------------
+               Today Button
+            ------------------------- */
+
+            todayButton.addEventListener(
+                "click",
+                () => {
+
+                    /*
+                        Get the current Eastern
+                        date again in case the
+                        day has changed.
+                    */
+
+                    const currentDate =
+                        getEasternDate();
+
+
+                    currentMonth =
+                        currentDate.month;
+
+                    currentYear =
+                        currentDate.year;
+
+
+                    /*
+                        Don't allow the calendar
+                        to go before September 2026.
+                    */
+
+                    if (
+                        currentYear < startingYear ||
+                        (
+                            currentYear === startingYear &&
+                            currentMonth < startingMonth
+                        )
+                    ) {
+
+                        currentYear =
+                            startingYear;
+
+                        currentMonth =
+                            startingMonth;
+
+                    }
+
+
+                    createCalendar(
+                        currentYear,
+                        currentMonth
+                    );
+
+                }
+            );
+
         }
 
 
@@ -500,4 +792,3 @@
 </body>
 
 </html>
-```
