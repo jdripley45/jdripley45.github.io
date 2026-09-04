@@ -1745,30 +1745,42 @@
            OPEN NOTE
         ====================================================== */
 
-        function openNote(
+       function openNote(
 
-            year,
-            month,
-            day
+    year,
+    month,
+    day
 
-        ) {
+) {
 
-            noteDate.textContent =
-                `${monthNames[month]} ${day}, ${year}`;
+    const dateKey =
+        `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
+    const note =
+        notes[dateKey];
 
-            noteText.textContent =
-                "This is where your note for this day will appear.\n\n" +
-                "Once we add your daily messages, the text will appear here on the lined paper in a handwritten style.";
+    noteDate.textContent =
+        `${monthNames[month]} ${day}, ${year}`;
 
+    if (note) {
 
-            noteOverlay.classList.add(
-                "visible"
-            );
+        noteText.textContent =
+            note;
 
-        }
+    }
 
+    else {
 
+        noteText.textContent =
+            "There isn't a letter for this day yet.";
+
+    }
+
+    noteOverlay.classList.add(
+        "visible"
+    );
+
+}
         /* =====================================================
            CLOSE NOTE
         ====================================================== */
