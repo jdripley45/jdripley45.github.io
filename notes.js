@@ -2,7 +2,7 @@ const notes = {
 
     "2026-09-04": `Dear Lucie,
 
-[Write your note for September 4, 2026 here.]
+This is a test. I Love Lucie.
 
 Love,
 Joey`,
