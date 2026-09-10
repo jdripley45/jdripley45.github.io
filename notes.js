@@ -3,13 +3,9 @@ const notes = {
     "2026-09-10": `Dear Lucie,
 
 After a lot of time spent and thousands of lines of code, this website I have built for you is the result. We may be farther apart than we are used to, and I know there will be days where we won't get to talk much (if at all). So I created "Dear Lucie..." as a reminder that we are really not as far apart as it may feel at times, and that I will always be here to support you.
-
 I chose today, the first day of fall, to be the day you open your first note because I thought it would be a good opportunity to let you know one of the biggest reasons I continue to FALL in love with you.
-
 When I first met you, one of the things that I quickly grew to appreciate about you was your commitment. Commitment to your best friends and family, to school and to your career, and as we started dating, commitment to our relationship. I always knew that, combined with your passion for learning and drive to help others, you could go on to achieve whatever you wanted in your career.
-
 Here you are, many years later, now chasing those dreams, and although we may be far apart, I couldn't be more proud of you and all the work you have put in to get to this point.
-
 While this marks the end of this note, you can check back in every day for a new note at 12 AM EST. I may write encouraging words, things I love about you, maybe even about my day a little, but you can always count on there being a note as a reminder that I am always cheering you on, even from a distance.
 
 Love,
