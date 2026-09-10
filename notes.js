@@ -1,134 +1,16 @@
 const notes = {
 
-    "2026-09-04": `Dear Lucie,
-
-This is a test. I Love Lucie.
-
-Love,
-Joey`,
-
-    "2026-09-05": `Dear Lucie,
-
-[Write your note for September 5, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-06": `Dear Lucie,
-
-[Write your note for September 6, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-07": `Dear Lucie,
-
-[Write your note for September 7, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-08": `Dear Lucie,
-
-[Write your note for September 8, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-09": `Dear Lucie,
-
-[Write your note for September 9, 2026 here.]
-
-Love,
-Joey`,
-
     "2026-09-10": `Dear Lucie,
 
-[Write your note for September 10, 2026 here.]
+After a lot of time spent and thousands of lines of code, this website I have built for you is the result. We may be farther apart than we are used to, and I know there will be days where we won't get to talk much (if at all). So I created "Dear Lucie..." as a reminder that we are really not as far apart as it may feel at times, and that I will always be here to support you.
 
-Love,
-Joey`,
+I chose today, the first day of fall, to be the day you open your first note because I thought it would be a good opportunity to let you know one of the biggest reasons I continue to FALL in love with you.
 
-    "2026-09-11": `Dear Lucie,
+When I first met you, one of the things that I quickly grew to appreciate about you was your commitment. Commitment to your best friends and family, to school and to your career, and as we started dating, commitment to our relationship. I always knew that, combined with your passion for learning and drive to help others, you could go on to achieve whatever you wanted in your career.
 
-[Write your note for September 11, 2026 here.]
+Here you are, many years later, now chasing those dreams, and although we may be far apart, I couldn't be more proud of you and all the work you have put in to get to this point.
 
-Love,
-Joey`,
-
-    "2026-09-12": `Dear Lucie,
-
-[Write your note for September 12, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-13": `Dear Lucie,
-
-[Write your note for September 13, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-14": `Dear Lucie,
-
-[Write your note for September 14, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-15": `Dear Lucie,
-
-[Write your note for September 15, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-16": `Dear Lucie,
-
-[Write your note for September 16, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-17": `Dear Lucie,
-
-[Write your note for September 17, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-18": `Dear Lucie,
-
-[Write your note for September 18, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-19": `Dear Lucie,
-
-[Write your note for September 19, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-20": `Dear Lucie,
-
-[Write your note for September 20, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-21": `Dear Lucie,
-
-[Write your note for September 21, 2026 here.]
-
-Love,
-Joey`,
-
-    "2026-09-22": `Dear Lucie,
-
-[Write your note for September 22, 2026 here.]
+While this marks the end of this note, you can check back in every day for a new note at 12 AM EST. I may write encouraging words, things I love about you, maybe even about my day a little, but you can always count on there being a note as a reminder that I am always cheering you on, even from a distance.
 
 Love,
 Joey`,
